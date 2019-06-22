@@ -1,51 +1,52 @@
-﻿using Microsoft.Xna.Framework;
+﻿#region Using
+using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Panther;
-
-namespace EngineTestBed
+#endregion
+namespace Panther
 {
-    public class Game1 : Game
+    public class Panther : Game
     {
-        GraphicsDeviceManager Graphics;
-        SpriteBatch spriteBatch;
+        GraphicsDeviceManager GDM;
+        SpriteBatch SB;
         GameLogic TheGame;
         Camera TheCamera;
         Timer FPSTimer;
-        float FPSFrames = 0;
-
         KeyboardState OldKeyState;
-        bool PauseGame = false;
+        float FPSFrames = 0;
+        bool PauseGame;
+        bool NotFirstFrame;
 
-        public Game1()
+        public Panther()
         {
-            Graphics = new GraphicsDeviceManager(this);
-            Graphics.IsFullScreen = false;
-            Graphics.SynchronizeWithVerticalRetrace = true; //When true, 60FPS refresh rate locked.
-            Graphics.GraphicsProfile = GraphicsProfile.HiDef;
-            Graphics.PreferredBackBufferWidth = 1200;
-            Graphics.PreferredBackBufferHeight = 900;
-            Graphics.PreferMultiSampling = true; //Error in MonoGame 3.6 for DirectX, fixed in version 3.7.
-            Graphics.PreparingDeviceSettings += SetMultiSampling;
-            Graphics.ApplyChanges();
-            Graphics.GraphicsDevice.RasterizerState = new RasterizerState(); //Must be after Apply Changes.
-            IsFixedTimeStep = false;
+            GDM = new GraphicsDeviceManager(this);
+            GDM.SynchronizeWithVerticalRetrace = true; //When true, 60FSP refresh rate locked.
+            GDM.GraphicsProfile = GraphicsProfile.HiDef;
+            GDM.PreferredBackBufferWidth = 1200;
+            GDM.PreferredBackBufferHeight = 900;
+            GDM.PreferMultiSampling = true; //Error in MonoGame 3.6 for DirectX, fixed in version 3.7.
+            GDM.PreparingDeviceSettings += SetMultiSampling;
+            GDM.ApplyChanges();
+            GDM.GraphicsDevice.RasterizerState = new RasterizerState(); //Must be after Apply Changes.
+            IsFixedTimeStep = true; //When true, 60FSP refresh rate locked.
+
             Content.RootDirectory = "Content";
-            Helper.Initialize(this, Graphics);
-            // Positive Y is Up. Positive X is Right.
+
+            Helper.Initialize(this, GDM, GraphicsDevice);
+            FPSTimer = new Timer(this, 1);
+
             TheCamera = new Camera(this, new Vector3(-50, 150, 500), new Vector3(0, MathHelper.Pi, 0),
                 GraphicsDevice.Viewport.AspectRatio, 0.1f, 1000f);
 
             TheGame = new GameLogic(this, TheCamera);
-            FPSTimer = new Timer(this, 1);
         }
 
-        private void SetMultiSampling(object sender, PreparingDeviceSettingsEventArgs eventArgs)
+        void SetMultiSampling(object sender, PreparingDeviceSettingsEventArgs eventArgs)
         {
             PresentationParameters PresentParm = eventArgs.GraphicsDeviceInformation.PresentationParameters;
             PresentParm.MultiSampleCount = 4;
         }
-
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
@@ -54,7 +55,6 @@ namespace EngineTestBed
         /// </summary>
         protected override void Initialize()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
 
             base.Initialize();
         }
@@ -66,8 +66,8 @@ namespace EngineTestBed
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
+            SB = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
             TheGame.LoadContent();
         }
 
@@ -85,7 +85,6 @@ namespace EngineTestBed
             base.BeginRun();
             TheGame.BeginRun();
         }
-
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -126,9 +125,16 @@ namespace EngineTestBed
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(new Color(0.05f, 0, 0.2f, 1));
+            GraphicsDevice.Clear(Color.DarkSlateBlue);
 
-            base.Draw(gameTime);
+            if (NotFirstFrame)
+            {
+                base.Draw(gameTime);
+            }
+            else
+            {
+                NotFirstFrame = true;
+            }
         }
     }
 }

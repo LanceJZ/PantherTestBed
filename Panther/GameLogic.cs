@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Audio;
 using System.Collections.Generic;
 using System.Linq;
 using System;
-using Panther;
 
 public enum GameState
 {
