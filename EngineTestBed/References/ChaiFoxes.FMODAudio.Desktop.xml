@@ -1,0 +1,325 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ChaiFoxes.FMODAudio.Desktop</name>
+    </assembly>
+    <members>
+        <member name="T:ChaiFoxes.FMODAudio.AudioMgr">
+            <summary>
+            Windows and Linux-specific part of an audio manager.
+            </summary>
+            <summary>
+            Audio manager. Controls main audiosystem parameters.
+            
+            NOTE: My wrappers don't provide full FMOD functionality. For example,
+            DSPs and advanced 3D stuff are largely left untouched. I may extend my audio
+            classes to add new features. For now, you have to use FMOD classes directly.
+            </summary>
+        </member>
+        <member name="M:ChaiFoxes.FMODAudio.AudioMgr.LoadNativeLibrary">
+            <summary>
+            Loads Windows or Linux native library.
+            </summary>
+        </member>
+        <member name="F:ChaiFoxes.FMODAudio.AudioMgr.FMODSystem">
+            <summary>
+            Low-level FMOD sound system.
+            </summary>
+        </member>
+        <member name="F:ChaiFoxes.FMODAudio.AudioMgr._rootDir">
+            <summary>
+            Root directory for sounds and music.
+            </summary>
+        </member>
+        <member name="M:ChaiFoxes.FMODAudio.AudioMgr.Init(System.String)">
+            <summary>
+            Initializes FMOD with default parameters. 
+            
+            If you want to use only the default wrapper, call
+            LoadNativeLibrary() instead.
+            </summary>
+        </member>
+        <member name="M:ChaiFoxes.FMODAudio.AudioMgr.Init(System.String,System.UInt32,System.Int32,System.Int32,FMOD.INITFLAGS)">
+            <summary>
+            Initializes FMOD with custom parameters. 
+            
+            If you want to use only the default wrapper, call
+            LoadNativeLibrary() instead.
+            </summary>
+        </member>
+        <member name="M:ChaiFoxes.FMODAudio.AudioMgr.CreateChannelGroup(System.String)">
+            <summary>
+            Creates new channel group with given name.
+            </summary>
+        </member>
+        <member name="M:ChaiFoxes.FMODAudio.AudioMgr.LoadSound(System.String)">
+            <summary>
+            Loads sound from file.
+            Use this function to load short sound effects.
+            </summary>
+        </member>
+        <member name="M:ChaiFoxes.FMODAudio.AudioMgr.LoadStreamedSound(System.String)">
+            <summary>
+            Loads streamed sound stream from file.
+            Use this function to load music and long ambience tracks.
+            </summary>
+        </member>
+        <member name="M:ChaiFoxes.FMODAudio.AudioMgr.LoadFileAsBuffer(System.String)">
+            <summary>
+            Loads file as a byte array.
+            </summary>
+        </member>
+        <member name="T:ChaiFoxes.FMODAudio.Listener3D">
+            <summary>
+            Sound listener in 3D space. Listens to positioned 3D sounds.
+            
+            NOTE: Do not mess with low-level listeners if you're using those.
+            It *probably* should be fine, but you're doing that at your own risk.
+            </summary>
+        </member>
+        <member name="F:ChaiFoxes.FMODAudio.Listener3D._listeners">
+            <summary>
+            List of all listeners. Used to keep track of indices.
+            </summary>
+        </member>
+        <member name="F:ChaiFoxes.FMODAudio.Listener3D._index">
+            <summary>
+            Listener index. Used to communicate with low-level API.
+            </summary>
+        </member>
+        <member name="P:ChaiFoxes.FMODAudio.Listener3D.Position3D">
+            <summary>
+            Listener position in 3D space. Used for panning and attenuation
+            </summary>
+        </member>
+        <member name="P:ChaiFoxes.FMODAudio.Listener3D.Velocity3D">
+            <summary>
+            Listener velocity in 3D space. Used for doppler effect.
+            </summary>
+        </member>
+        <member name="P:ChaiFoxes.FMODAudio.Listener3D.ForwardOrientation">
+            <summary>
+            Forwards orientation, must be of unit length (1.0) and perpendicular to up.
+            UnitY by default.
+            </summary>
+        </member>
+        <member name="P:ChaiFoxes.FMODAudio.Listener3D.UpOrientation">
+            <summary>
+            Upwards orientation, must be of unit length (1.0) and perpendicular to forward.
+            UnitZ by default.
+            </summary>
+        </member>
+        <member name="M:ChaiFoxes.FMODAudio.Listener3D.GetAttributes(Microsoft.Xna.Framework.Vector3@,Microsoft.Xna.Framework.Vector3@,Microsoft.Xna.Framework.Vector3@,Microsoft.Xna.Framework.Vector3@)">
+            <summary>
+            Gets all listener attributes at once.
+            </summary>
+        </member>
+        <member name="M:ChaiFoxes.FMODAudio.Listener3D.SetAttributes(Microsoft.Xna.Framework.Vector3,Microsoft.Xna.Framework.Vector3,Microsoft.Xna.Framework.Vector3,Microsoft.Xna.Framework.Vector3)">
+            <summary>
+            Sets all listener attributes at once.
+            </summary>
+        </member>
+        <member name="M:ChaiFoxes.FMODAudio.Listener3D.Create">
+            <summary>
+            Creates a new listener.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ChaiFoxes.FMODAudio.Listener3D.Destroy">
+            <summary>
+            Destroys the listener.
+            </summary>
+        </member>
+        <member name="T:ChaiFoxes.FMODAudio.SoundChannel">
+            <summary>
+            FMOD sound channel wrapper. Takes horrible FMOD wrapper and makes it look pretty.
+            Basically, a playing sound instance.
+            </summary>
+        </member>
+        <member name="P:ChaiFoxes.FMODAudio.SoundChannel.Channel">
+            <summary>
+            FMOD channel object. Use it if you need full FMOD functionality.
+            </summary>
+        </member>
+        <member name="F:ChaiFoxes.FMODAudio.SoundChannel.Sound">
+            <summary>
+            Sound, from which this channel has been created.
+            </summary>
+        </member>
+        <member name="P:ChaiFoxes.FMODAudio.SoundChannel.Looping">
+            <summary>
+            Tells if channel is looping.
+            </summary>
+        </member>
+        <member name="P:ChaiFoxes.FMODAudio.SoundChannel.Loops">
+            <summary>
+            Amount of loops. 
+            > 0 - Specific count.
+            0 - No loops.
+            -1 - Infinite loops.
+            </summary>
+        </member>
+        <member name="P:ChaiFoxes.FMODAudio.SoundChannel.Pitch">
+            <summary>
+            Sound pitch. Affects speed too.
+            1 - Normal pitch.
+            More than 1 - Higher pitch.
+            Less than 1 - Lower pitch.
+            </summary>
+        </member>
+        <member name="P:ChaiFoxes.FMODAudio.SoundChannel.Volume">
+            <summary>
+            Sound volume.
+            1 - Normal volume.
+            0 - Muted.
+            </summary>
+        </member>
+        <member name="P:ChaiFoxes.FMODAudio.SoundChannel.LowPass">
+            <summary>
+            Low pass filter. Makes sound muffled.
+            1 - No filtering.
+            0 - Full filtering.
+            </summary>
+        </member>
+        <member name="P:ChaiFoxes.FMODAudio.SoundChannel.Mode">
+            <summary>
+            Sound mode. Mainly used for 3D sound.
+            </summary>
+        </member>
+        <member name="P:ChaiFoxes.FMODAudio.SoundChannel.Is3D">
+            <summary>
+            If true, allows sound to be positioned in 3D space.
+            </summary>
+        </member>
+        <member name="P:ChaiFoxes.FMODAudio.SoundChannel.Position3D">
+            <summary>
+            Sound's position in 3D space. Can be used only id 3D positioning is enabled.
+            </summary>
+        </member>
+        <member name="P:ChaiFoxes.FMODAudio.SoundChannel.Velocity3D">
+            <summary>
+            Sound's velocity in 3D space. Can be used only id 3D positioning is enabled.
+            </summary>
+        </member>
+        <member name="P:ChaiFoxes.FMODAudio.SoundChannel.MinDistance3D">
+            <summary>
+            Distance from the source where attenuation begins.
+            </summary>
+        </member>
+        <member name="P:ChaiFoxes.FMODAudio.SoundChannel.MaxDistance3D">
+            <summary>
+            Distance from the source where attenuation ends.
+            </summary>
+        </member>
+        <member name="P:ChaiFoxes.FMODAudio.SoundChannel.IsPlaying">
+            <summary>
+            Tells if sound is playing.
+            </summary>
+        </member>
+        <member name="P:ChaiFoxes.FMODAudio.SoundChannel.TrackPosition">
+            <summary>
+            Track position in milliseconds.
+            </summary>
+        </member>
+        <member name="T:ChaiFoxes.FMODAudio.Sound">
+            <summary>
+            Sound class. Can play sound with given attributes.
+            </summary>
+        </member>
+        <member name="P:ChaiFoxes.FMODAudio.Sound.Looping">
+            <summary>
+            Tells if sound is looping.
+            </summary>
+        </member>
+        <member name="F:ChaiFoxes.FMODAudio.Sound.Loops">
+            <summary>
+            Amount of loops. 
+            > 0 - Specific count.
+            0 - No loops.
+            -1 - Infinite loops.
+            </summary>
+        </member>
+        <member name="F:ChaiFoxes.FMODAudio.Sound.Pitch">
+            <summary>
+            Sound pitch. Affects speed too.
+            1 - Normal pitch.
+            More than 1 - Higher pitch.
+            Less than 1 - Lower pitch.
+            </summary>
+        </member>
+        <member name="F:ChaiFoxes.FMODAudio.Sound.Volume">
+            <summary>
+            Sound volume.
+            1 - Normal volume.
+            0 - Muted.
+            </summary>
+        </member>
+        <member name="F:ChaiFoxes.FMODAudio.Sound.LowPass">
+            <summary>
+            Low pass filter. Makes sound muffled.
+            1 - No filtering.
+            0 - Full filtering.
+            </summary>
+        </member>
+        <member name="F:ChaiFoxes.FMODAudio.Sound.Mode">
+            <summary>
+            Sound mode.
+            </summary>
+        </member>
+        <member name="F:ChaiFoxes.FMODAudio.Sound.ChannelGroup">
+            <summary>
+            Sound's default channel group.
+            </summary>
+        </member>
+        <member name="F:ChaiFoxes.FMODAudio.Sound.Is3D">
+            <summary>
+            If true, allows sound to be positioned in 3D space.
+            </summary>
+        </member>
+        <member name="F:ChaiFoxes.FMODAudio.Sound.Position3D">
+            <summary>
+            Sound's position in 3D space. Can be used only id 3D positioning is enabled.
+            </summary>
+        </member>
+        <member name="F:ChaiFoxes.FMODAudio.Sound.Velocity3D">
+            <summary>
+            Sound's velocity in 3D space. Can be used only id 3D positioning is enabled.
+            </summary>
+        </member>
+        <member name="F:ChaiFoxes.FMODAudio.Sound.MinDistance3D">
+            <summary>
+            Distance from the source where attenuation begins.
+            </summary>
+        </member>
+        <member name="F:ChaiFoxes.FMODAudio.Sound.MaxDistance3D">
+            <summary>
+            Distance from the source where attenuation ends.
+            </summary>
+        </member>
+        <member name="F:ChaiFoxes.FMODAudio.Sound._buffer">
+            <summary>
+            Sound buffer. Used for streamed sounds, which point to this memory.
+            In otehr words, we need to just reference it somewhere to prevent
+            garbage collector from collecting it.
+            This memory is also pinned, so GC won't move it anywhere.
+            
+            If any unexpected crashes emerge, this is the first suspect.
+            </summary>
+        </member>
+        <member name="F:ChaiFoxes.FMODAudio.Sound._bufferHandle">
+            <summary>
+            Buffer's handle.
+            </summary>
+        </member>
+        <member name="M:ChaiFoxes.FMODAudio.Sound.Unload">
+            <summary>
+            Unloads the sound and frees its handles.
+            </summary>
+        </member>
+        <member name="T:ChaiFoxes.FMODAudio.VectorExtensions">
+            <summary>
+            Various FMOD.VECTOR and Xna.Vector extensions. 
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.Linq;
@@ -89,22 +88,6 @@ namespace Panther
             else
                 System.Diagnostics.Debug.WriteLine("The Model File Name was empty");
 
-            return null;
-        }
-        /// <summary>
-        /// Loads Sound Effect from file using filename. Stored in Content/Sounds
-        /// </summary>
-        /// <param name="soundFileName">File Name of the sound.</param>
-        /// <returns>SoundEffect</returns>
-        public static SoundEffect LoadSoundEffect(string soundFileName)
-        {
-            if (soundFileName != "")
-            {
-                if (File.Exists("Content/Sounds/" + soundFileName + ".xnb"))
-                    return GameRef.Content.Load<SoundEffect>("Sounds/" + soundFileName);
-            }
-
-            System.Diagnostics.Debug.WriteLine("The Sound File " + soundFileName + " was not found.");
             return null;
         }
         /// <summary>

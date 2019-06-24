@@ -1,11 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Audio;
+using ChaiFoxes.FMODAudio;
 using System.Collections.Generic;
 using System.Linq;
 using System;
-using Panther;
 
 public enum GameState
 {
@@ -25,7 +24,6 @@ namespace Panther
         Numbers ScoreDisplay;
         Letters WordDisplay;
         Effect TerrainEffect;
-        float Rotation;
 
         GameState GameMode = GameState.InPlay;
         KeyboardState OldKeyState;
@@ -49,8 +47,13 @@ namespace Panther
 
         public override void Initialize()
         {
-            base.Initialize();
+            AudioMgr.Init("Content");
+            // All our music files reside in Content directory.
+            AudioMgr.Init("Content");
+            Sound sound = AudioMgr.LoadSound("Checkpoint.wav");
+            sound.Play();
 
+            base.Initialize();
         }
 
         public void LoadContent()
@@ -118,8 +121,6 @@ namespace Panther
             }
 
             OldKeyState = Keyboard.GetState();
-
-            Rotation += MathHelper.Pi * 10 * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             base.Update(gameTime);
         }
